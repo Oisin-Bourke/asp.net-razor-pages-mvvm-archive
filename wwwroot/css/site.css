@@ -1,0 +1,147 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+/* My styles
+-------------------------------------------------- */
+
+.embedded-item{
+    margin: 5px;
+}
+
+.tab-content{
+    margin-top: 10px;
+}
+
+.social-icon{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.video-map-container{
+    padding: 15px;
+}
+
+#map {
+    height: 315px;
+    width: 100%;
+}
+
+#selectionMap {
+    height: 500px;
+    width: 100%;
+}
+
+/* youtube css
+-------------------------------------------------- */
+
+#channel-image {
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+}
+
+#channel-name {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+
+#disclaimer {
+    font-size: 0.75em;
+    color: #aeaeae;
+    max-width: 350px;
+}
+
+/*
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.5em;
+}
+    */
+
+.post-sign-in {
+    display: none;
+}
+
+.during-upload {
+    display: none;
+}
+
+.post-upload {
+    display: none;
+}
+
+/*
+label {
+    display: block;
+}
+
+
+input[type="text"], textarea, progress {
+    font-size: 0.75em;
+    width: 15em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    font-family: "Open Sans", sans-serif;
+}
+
+textarea {
+    height: 7em;
+}
+    */
+.rov-image {
+
+}

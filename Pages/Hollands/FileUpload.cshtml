@@ -1,0 +1,72 @@
+﻿@page
+@model RazorPagesHolland.Pages.Hollands.FileUploadModel
+@{
+    ViewData["Title"] = "FileUpload";
+}
+<div class="card col-6">
+    <div class="card-body">
+        <h5 class="card-title">Add Survey Tracks</h5>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Upload Excel File</label>
+                <input type="file" asp-for="Upload" class="form-control-file" />
+            </div>
+            <input class="btn btn-primary" type="Submit" />
+        </form>
+    </div>
+</div>
+<br />
+<h5>Loaded Survey Tracks</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Survey[0].SurveyID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Survey[0].TimeInterval)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Survey[0].VesselNumber)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Survey[0].Latitude)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Survey[0].Longitude)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Survey[0].HollandID)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Holland.Surveys)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SurveyID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeInterval)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.VesselNumber)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.HollandID)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<div>
+    <a asp-page="Admin">Back to List</a>
+</div>

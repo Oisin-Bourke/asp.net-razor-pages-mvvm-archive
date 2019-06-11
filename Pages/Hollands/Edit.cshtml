@@ -1,0 +1,77 @@
+@page
+@model RazorPagesHolland.Pages.Hollands.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Holland</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Holland.ID" />
+            <div class="form-group">
+                <label asp-for="Holland.DiveDate" class="control-label"></label>
+                <input asp-for="Holland.DiveDate" class="form-control" type="date" onblur="        getDiveDate()" id="DiveDate" />
+                <span asp-validation-for="Holland.DiveDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.VesselName" class="control-label"></label>
+                <input asp-for="Holland.VesselName" class="form-control" type="text" onblur="        getVesselName()" id="VesselName" />
+                <span asp-validation-for="Holland.VesselName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.ROVDiveName" class="control-label"></label>
+                <input asp-for="Holland.ROVDiveName" class="form-control" type="text" onblur="        getDiveName()" id="DiveName" />
+                <span asp-validation-for="Holland.ROVDiveName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Location" class="control-label"></label>
+                <input asp-for="Holland.Location" class="form-control" type="text" onblur="        getLocation()" id="Location" />
+                <span asp-validation-for="Holland.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Latitude" class="control-label"></label>
+                <input asp-for="Holland.Latitude" class="form-control" type="text" onblur="        getLatitude()" id="Latitude" />
+                <span asp-validation-for="Holland.Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Longitude" class="control-label"></label>
+                <input asp-for="Holland.Longitude" class="form-control" type="text" onblur="        getLongitude()" id="Longitude" />
+                <span asp-validation-for="Holland.Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.VideoUrl" class="control-label"></label>
+                <input asp-for="Holland.VideoUrl" class="form-control" type="text" id="MyVideoId" readonly />
+                <span asp-validation-for="Holland.VideoUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" id="execute-update"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Admin">Back to List</a>
+</div>
+
+<!--youtube api-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src='@Url.Content("/js/youtube/update_video.js")'></script>
+
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="        this.onload = function () { }; handleClientLoad()"
+        onreadystatechange="        if (this.readyState === 'complete') this.onload()">
+</script>
+<!-- end youtube api-->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

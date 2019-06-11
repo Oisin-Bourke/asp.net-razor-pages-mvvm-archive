@@ -1,0 +1,133 @@
+@page
+@model RazorPagesHolland.Pages.Hollands.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Holland</h4>
+<hr />
+
+<!--before google sign in -->
+<div id="signinButton" class="pre-sign-in">
+    <!-- IMPORTANT: Replace the value of the <code>data-clientid</code>
+         attribute in the following tag with your project's client ID. -->
+    <span class="g-signin"
+          data-callback="signinCallback"
+          data-clientid="153908722054-9d66tajejhdnlceondmvk790iaobun42.apps.googleusercontent.com"
+          data-cookiepolicy="single_host_origin"
+          data-scope="https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube">
+    </span>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+
+            @*validation tag helper, label tag helper, input tag helper*@
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Holland.DiveDate" class="control-label"></label>
+                <input asp-for="Holland.DiveDate" class="form-control" type="date" onblur="getDiveDate()" id="DiveDate"/>
+                <span asp-validation-for="Holland.DiveDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.VesselName" class="control-label"></label>
+                <input asp-for="Holland.VesselName" class="form-control" type="text" onblur="getVesselName()" id="VesselName"/>
+                <span asp-validation-for="Holland.VesselName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.ROVDiveName" class="control-label"></label>
+                <input asp-for="Holland.ROVDiveName" class="form-control" type="text" onblur="getDiveName()" id="DiveName"/>
+                <span asp-validation-for="Holland.ROVDiveName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Location" class="control-label"></label>
+                <input asp-for="Holland.Location" class="form-control" type="text" onblur="getLocation()" id="Location"/>
+                <span asp-validation-for="Holland.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Latitude" class="control-label"></label>
+                <input asp-for="Holland.Latitude" class="form-control" type="text" onblur="getLatitude()" id="Latitude"/>
+                <span asp-validation-for="Holland.Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.Longitude" class="control-label"></label>
+                <input asp-for="Holland.Longitude" class="form-control" type="text" onblur="getLongitude()" id="Longitude"/>
+                <span asp-validation-for="Holland.Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Holland.VideoUrl" class="control-label"></label>
+                <input asp-for="Holland.VideoUrl" class="form-control" id="my-video-id" readonly/>
+                <span asp-validation-for="Holland.VideoUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="card col-md-6">
+        <h4>YouTube Video Upload</h4>
+        <!--after google sign in -->
+        <div class="post-sign-in">
+            <div class="form-group">
+                <img id="channel-thumbnail">
+                <span id="channel-name"></span>
+            </div>
+            <div class="form-group">
+                <label for="privacy-status">Privacy Status:</label>
+                <select class="form-control" id="privacy-status">
+                    <option>public</option>
+                    <option>unlisted</option>
+                    <option>private</option>
+                </select>
+            </div>
+            <!-- during upload-->
+            <div class="form-group">
+                <div class="form-group">
+                    <input input type="file" id="file" class="form-control-file" accept="video/*">
+                </div>
+                <div class="form-group">
+                    <button id="button" class="btn btn-success">Upload</button>
+                </div>
+                <div class="during-upload form-group">
+                    <p><span id="percent-transferred"></span>% done (<span id="bytes-transferred"></span>/<span id="total-bytes"></span> bytes)</p>
+                    <progress id="upload-progress" max="1" value="0"></progress>
+                </div>
+                <!--after upload-->
+                <div class="post-upload">
+                    <p>Uploaded video with id <span id="video-id"></span>. Polling for status...</p>
+                    <ul id="post-upload-status"></ul>
+                    <div id="player"></div>
+                </div>
+                <!--<p id="disclaimer">By uploading a video, you certify that you own all rights to the content or that you are authorized by the owner to make the content publicly available on YouTube, and that it otherwise complies with the YouTube Terms of Service located at <a href="http://www.youtube.com/t/terms" target="_blank">http://www.youtube.com/t/terms</a></p>-->
+            </div>
+        </div>
+        <p>Ensure that all fields have been populated before choosing a video file and that the video has been succesfully uploaded with returned Video ID before creating a new entry</p>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Admin">Back to List</a>
+</div>
+
+<!--<button onclick="setTitleAndDescriptionText()">Test</button>-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//apis.google.com/js/client:plusone.js"></script>
+
+<!--<script type="text/javascript" src='@Url.Content("/js/youtube/auth.js")'></script>-->
+
+<script type="text/javascript" src='@Url.Content("/js/youtube/cors_upload.js")'></script>
+<script type="text/javascript" src='@Url.Content("/js/youtube/upload_video.js")'></script>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
+

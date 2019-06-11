@@ -1,0 +1,162 @@
+@* Razor can transition from HTML into C# or into Razor-specific markup.
+    When an @ symbol is followed by a Razor reserved keyword, it transitions
+    into Razor-specific markup, otherwise it transitions into C#.*@
+
+@* the @page makes the file into an MVC action, which means that it can handle requests*@
+
+@page
+@*The @model directive specifies the type of the model passed to the Razor Page.*@
+
+@model RazorPagesHolland.Pages.Hollands.IndexModel
+@*The { and } characters enclose a block of C# code.*@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>ROV Holland I Video Archive</h1>
+
+<div class="tab-container">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation"><a class="nav-link active" href="#listView" aria-controls="listView" role="tab" data-toggle="tab">List View</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="#mapView" aria-controls="mapView" role="tab" data-toggle="tab">Map View</a></li>
+    </ul>
+
+    <!-- Tab pane -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="listView">
+            <form>
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        <label for="VesselNameSelect">Vessel Name</label>
+                        <select class="form-control" asp-for="VesselNameSelect" asp-items="Model.VesselNames">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="DiveNameSelect">Dive Name</label>
+                        <select class="form-control" asp-for="DiveNameSelect" asp-items="Model.DiveNames">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="SearchString" class="col-sm-2 col-form-label">Location:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" asp-for="SearchString" />
+                    </div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Filter" />
+            </form>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].DiveDate) @*The DisplayNameFor HTML Helper inspects the Title property referenced in the lambda expression to determine the display name. *@
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].VesselName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].ROVDiveName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].Location)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].Latitude)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].Longitude)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Holland[0].VideoUrl)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Holland)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DiveDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VesselName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ROVDiveName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Latitude)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Longitude)
+                            </td>
+                            <td>
+                                <iframe width="300" height="200" src="https://www.youtube.com/embed/@Html.Raw(item.VideoUrl)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </td>
+                            <td>
+                                <p>
+                                    <a class="btn btn-success" asp-page="./Details" asp-route-id="@item.ID">Video-Map <i class="fas fa-play-circle"></i> </a>
+                                </p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Tab pane -->
+        <div role="tabpanel" class="tab-pane" id="mapView">
+            <div class="row">
+                <div class="col-md-8 offset-md-2"></div>
+                <div class="embed-responsive embed-responsive-16by9" id="selectionMap"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="javascript">
+        var markers = @Html.Raw(@IndexModel.markers);
+
+        window.onload = function () {
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),//centre on 1st marker
+                zoom: 5,
+                streetViewControl: false,
+                mapTypeId: 'satellite'
+            };
+
+            var infoWindow = new google.maps.InfoWindow();
+
+            var map = new google.maps.Map(document.getElementById("selectionMap"), mapOptions);
+
+            for (i = 0; i < markers.length; i++) {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    label:"H",
+                    title: data.title
+                });
+
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent('<a href="@Url.Page("Details")?id=' + data.ID + '">Video-Map</a>');
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+        }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVHiK8K4NbQ01iqcB9GaSbkp1DLWGZNvM&callback=initMap">
+</script>
