@@ -1,4 +1,4 @@
-﻿//alert("upload_video.js");
+﻿alert("upload_video.js");
 
 /*
 Copyright 2015 Google Inc. All Rights Reserved.
@@ -14,10 +14,13 @@ limitations under the License.
 */
 
 var signinCallback = function (result){
-  if(result.access_token) {
-    var uploadVideo = new UploadVideo();
-    uploadVideo.ready(result.access_token);
-  }
+    if (result.access_token) {
+        var uploadVideo = new UploadVideo();
+        uploadVideo.ready(result.access_token);
+    } else
+    {
+       console.log("problem with sign in call back...");
+    }
 };
 
 var STATUS_POLLING_INTERVAL_MILLIS = 60 * 1000; // One minute.
@@ -74,7 +77,8 @@ UploadVideo.prototype.ready = function(accessToken) {
     },
     callback: function(response) {
       if (response.error) {
-        console.log(response.error.message);
+          console.log(response.error.message);
+          console.log("the issue is here...");
       } else {
         $('#channel-name').text(response.items[0].snippet.title);
         $('#channel-thumbnail').attr('src', response.items[0].snippet.thumbnails.default.url);
@@ -96,25 +100,39 @@ UploadVideo.prototype.ready = function(accessToken) {
 
 var diveDate;
 
-function getDiveDate(){     diveDate = document.getElementById("DiveDate").value; }
+function getDiveDate(){
+    diveDate = document.getElementById("DiveDate").value;
+}
 
 var vesselName;
 
-function getVesselName(){     vesselName = document.getElementById("VesselName").value; }
+function getVesselName(){
+    vesselName = document.getElementById("VesselName").value;
+}
 
 var diveName;
 
-function getDiveName(){     diveName = document.getElementById("DiveName").value; }
- var diveLocation;
+function getDiveName(){
+    diveName = document.getElementById("DiveName").value;
+}
 
-function getLocation(){     diveLocation = document.getElementById("Location").value;  }
+var diveLocation;
+
+function getLocation(){
+    diveLocation = document.getElementById("Location").value; 
+}
 
 var lat;
 
-function getLatitude(){     lat = document.getElementById("Latitude").value;  }
- var lng;
+function getLatitude(){
+    lat = document.getElementById("Latitude").value; 
+}
 
-function getLongitude(){     lng = document.getElementById("Longitude").value;  }
+var lng;
+
+function getLongitude(){
+    lng = document.getElementById("Longitude").value; 
+}
 
 
 var titleText;

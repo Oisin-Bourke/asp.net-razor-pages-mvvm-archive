@@ -93,33 +93,44 @@ namespace RazorPagesHolland.Pages.Hollands
                     Debug.WriteLine("created xssf file");
                 }
 
-                //the first/only sheet:
-                ISheet sheet = xssfFile.GetSheetAt(0);
+                //get the excel sheet:
+                ISheet sheet = xssfFile.GetSheetAt(1);
 
-                //iterate every 360th row (per hour) started from row 1
+                //iterate every 360th row (per hour) started from row 1 ***
                 for (int row = 1; row <= sheet.LastRowNum; row += 360)
                 {
-                    DateTime timestamp = DateTime.MinValue;
+                    DateTime dateTimeStamp = DateTime.MinValue;
+
+                   // DateTime date = DateTime.MinValue;
+                   // TimeSpan time = TimeSpan.MinValue;
+
                     int vesselId = 0;
                     float latitude = 0;
                     float longitude = 0;
                     int hollandId = theID;
 
-                    Debug.WriteLine(timestamp + "*" + vesselId + "*" + latitude + "*" + longitude + "*" + hollandId);
+                    Debug.WriteLine(dateTimeStamp + "*" + vesselId + "*" + latitude + "*" + longitude + "*" + hollandId);
 
+                    //adapt code to actual survery tracks...
                     if (sheet.GetRow(row) != null) //null is when the row only contains empty cells 
                     {
-                        timestamp = sheet.GetRow(row).GetCell(0).DateCellValue;
-                        vesselId = (int)sheet.GetRow(row).GetCell(1).NumericCellValue;
-                        latitude = (float)sheet.GetRow(row).GetCell(2).NumericCellValue;
-                        longitude = (float)sheet.GetRow(row).GetCell(3).NumericCellValue;
+                        //new code for different data....get date and time from cells and add to date time
+                        DateTime date = sheet.GetRow(row).GetCell(2).DateCellValue;
+                        DateTime tempDate = sheet.GetRow(row).GetCell(3).DateCellValue;
+                        TimeSpan time = tempDate.TimeOfDay;
+                        dateTimeStamp = date + time;
+                        
+                        //dateTimeStamp = sheet.GetRow(row).GetCell(4).DateCellValue;
+                        vesselId = (int)sheet.GetRow(row).GetCell(0).NumericCellValue;
+                        latitude = (float)sheet.GetRow(row).GetCell(7).NumericCellValue;
+                        longitude = (float)sheet.GetRow(row).GetCell(6).NumericCellValue;
 
-                        Debug.WriteLine(timestamp + " | " + vesselId + " | " + latitude + " | " + longitude);
+                        Debug.WriteLine(dateTimeStamp + " | " + vesselId + " | " + latitude + " | " + longitude);
                     }
        
                     var survey = new Survey()
                     {
-                        TimeInterval = timestamp,
+                        TimeInterval = dateTimeStamp,
                         VesselNumber = vesselId,
                         Latitude = latitude,
                         Longitude = longitude,
